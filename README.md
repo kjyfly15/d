@@ -26,59 +26,70 @@
 - Axios
 - CSS3
 
-## 설치 및 실행
+## 빠른 시작 (Quick Start)
 
-### 1. 의존성 설치
-
-```bash
-# 루트 디렉토리에서 백엔드 패키지 설치
-npm install
-
-# 클라이언트 디렉토리로 이동하여 프론트엔드 패키지 설치
-cd client
-npm install
-cd ..
-```
-
-또는 한 번에 설치:
+### 방법 1: 자동 실행 스크립트 (추천)
 
 ```bash
-npm run install-all
+# 의존성이 이미 설치되어 있습니다!
+# 바로 실행:
+./start.sh
 ```
 
-### 2. 환경 변수 설정
+### 방법 2: npm 명령어로 실행
 
-`.env` 파일이 이미 생성되어 있습니다. 프로덕션 환경에서는 `JWT_SECRET`을 반드시 변경하세요.
+```bash
+# 백엔드 + 프론트엔드 동시 실행
+npm run dev
+```
+
+### 방법 3: 개별 실행
+
+```bash
+# 백엔드만 실행 (터미널 1)
+npm run server
+
+# 프론트엔드만 실행 (터미널 2)
+npm run client
+```
+
+### 접속
+
+- 프론트엔드: http://localhost:3000
+- 백엔드 API: http://localhost:5000
+
+### 백엔드 테스트
+
+```bash
+# 백엔드 서버가 정상 작동하는지 확인
+./test-backend.sh
+```
+
+## 상세 설정
+
+### 환경 변수
+
+`.env` 파일에서 설정을 변경할 수 있습니다:
 
 ```env
 JWT_SECRET=your-secret-key-change-in-production-please
 PORT=5000
 ```
 
-### 3. 애플리케이션 실행
+⚠️ **프로덕션 환경에서는 반드시 `JWT_SECRET`을 변경하세요!**
 
-#### 개발 모드 (백엔드 + 프론트엔드 동시 실행)
-
-```bash
-npm run dev
-```
-
-#### 백엔드만 실행
+### 의존성 재설치가 필요한 경우
 
 ```bash
-npm run server
+# 백엔드 의존성
+npm install
+
+# 프론트엔드 의존성
+cd client && npm install && cd ..
+
+# 또는 한 번에
+npm run install-all
 ```
-
-#### 프론트엔드만 실행
-
-```bash
-npm run client
-```
-
-### 4. 접속
-
-- 프론트엔드: http://localhost:3000
-- 백엔드 API: http://localhost:5000
 
 ## 사용 방법
 
@@ -128,6 +139,33 @@ npm run client
 ├── package.json
 ├── .env
 └── README.md
+```
+
+## 문제 해결 (Troubleshooting)
+
+### 포트가 이미 사용 중인 경우
+
+```bash
+# 포트 5000을 사용 중인 프로세스 종료
+lsof -ti:5000 | xargs kill -9
+
+# 포트 3000을 사용 중인 프로세스 종료
+lsof -ti:3000 | xargs kill -9
+```
+
+### 데이터베이스 초기화
+
+```bash
+# SQLite 데이터베이스 파일 삭제 (모든 데이터 삭제됨!)
+rm server/consultation.db
+```
+
+### 의존성 문제
+
+```bash
+# node_modules 삭제 후 재설치
+rm -rf node_modules client/node_modules
+npm run install-all
 ```
 
 ## 보안 고려사항
