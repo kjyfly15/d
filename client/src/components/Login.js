@@ -11,10 +11,15 @@ function Login({ onLogin, onSwitchToSignup }) {
     setError('');
 
     try {
+      console.log('로그인 시도:', { username, password: '****' });
       const response = await axios.post('/api/login', { username, password });
+      console.log('로그인 성공:', response.data);
       onLogin(response.data.token, response.data.user);
     } catch (err) {
-      setError(err.response?.data?.error || '로그인에 실패했습니다.');
+      console.error('로그인 에러:', err);
+      console.error('에러 상세:', err.response);
+      const errorMessage = err.response?.data?.error || err.message || '로그인에 실패했습니다.';
+      setError(errorMessage);
     }
   };
 

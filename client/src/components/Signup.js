@@ -24,13 +24,18 @@ function Signup({ onSwitchToLogin }) {
     }
 
     try {
-      await axios.post('/api/signup', { username, password });
+      console.log('회원가입 시도:', { username, password: '****' });
+      const response = await axios.post('/api/signup', { username, password });
+      console.log('회원가입 성공:', response.data);
       setSuccess('회원가입이 완료되었습니다! 로그인해주세요.');
       setTimeout(() => {
         onSwitchToLogin();
       }, 1500);
     } catch (err) {
-      setError(err.response?.data?.error || '회원가입에 실패했습니다.');
+      console.error('회원가입 에러:', err);
+      console.error('에러 상세:', err.response);
+      const errorMessage = err.response?.data?.error || err.message || '회원가입에 실패했습니다.';
+      setError(errorMessage);
     }
   };
 
