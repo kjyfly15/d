@@ -1,17 +1,5 @@
 #!/bin/bash
 
-echo "🧹 기존 프로세스 정리 중..."
-
-# 기존 프로세스 종료
-pkill -f "node server/index.js" 2>/dev/null || true
-pkill -f "react-scripts" 2>/dev/null || true
-lsof -ti:5000 | xargs kill -9 2>/dev/null || true
-lsof -ti:3000 | xargs kill -9 2>/dev/null || true
-
-sleep 1
-
-echo "✅ 정리 완료!"
-echo ""
 echo "🚀 AI 상담 앱 시작 중..."
 echo ""
 
