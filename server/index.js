@@ -5,15 +5,8 @@ const { generateConsultation, saveConsultation, getConsultationHistory } = requi
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const HOST = process.env.HOST || '127.0.0.1'; // localhost만 허용
 
-// CORS 설정: localhost에서만 접근 허용
-const corsOptions = {
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 // 회원가입
@@ -73,8 +66,6 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// localhost(127.0.0.1)에서만 접속 가능하도록 바인딩
-app.listen(PORT, HOST, () => {
-  console.log(`Server is running on ${HOST}:${PORT}`);
-  console.log('외부 접속 차단: localhost에서만 접근 가능');
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
