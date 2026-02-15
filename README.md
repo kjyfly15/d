@@ -12,7 +12,6 @@
   - 꿈 해몽
 - 상담 이력 저장 및 조회
 - 직관적이고 아름다운 UI
-- 🔒 **외부 접속 차단** (localhost에서만 접근 가능)
 
 ## 기술 스택
 
@@ -75,15 +74,9 @@ npm run client
 ```env
 JWT_SECRET=your-secret-key-change-in-production-please
 PORT=5000
-HOST=127.0.0.1  # localhost만 접속 가능 (외부 차단)
 ```
 
-**중요한 설정:**
-- `JWT_SECRET`: 프로덕션 환경에서는 반드시 변경!
-- `HOST=127.0.0.1`: localhost에서만 접속 가능 (기본값, 권장)
-- `HOST=0.0.0.0`: 외부 네트워크에서도 접속 가능 (주의 필요)
-
-자세한 보안 설정은 [SECURITY.md](SECURITY.md) 참고
+⚠️ **프로덕션 환경에서는 반드시 `JWT_SECRET`을 변경하세요!**
 
 ### 의존성 재설치가 필요한 경우
 
