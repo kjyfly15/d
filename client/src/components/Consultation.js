@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import History from './History';
 
-function Consultation({ token, user, onLogout, onViewHistory }) {
+function Consultation() {
   const [type, setType] = useState('saju');
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showHistory, setShowHistory] = useState(false);
 
   const consultationTypes = [
     { value: 'saju', label: '사주 상담' },
@@ -22,40 +24,34 @@ function Consultation({ token, user, onLogout, onViewHistory }) {
     setAnswer('');
 
     try {
-      const response = await axios.post(
-        '/api/consult',
-        { type, question },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      console.log('상담 시도:', { type, question });
+      const response = await axios.post('/api/consult', { type, question });
+      console.log('상담 성공:', response.data);
       setAnswer(response.data.answer);
       setQuestion('');
     } catch (err) {
-      setError(err.response?.data?.error || '상담 요청에 실패했습니다.');
+      console.error('상담 에러:', err);
+      console.error('에러 상세:', err.response);
+      const errorMessage = err.response?.data?.error || err.message || '상담 요청에 실패했습니다.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
+  if (showHistory) {
+    return <History onBack={() => setShowHistory(false)} />;
+  }
+
   return (
     <div className="container">
-      <div className="user-info">
-        <span>{user?.username}님 환영합니다</span>
-        <button onClick={onLogout} className="logout-btn">
-          로그아웃
-        </button>
-      </div>
-
       <div className="header">
         <h1>AI 상담 서비스</h1>
         <p>무엇이든 물어보세요</p>
       </div>
 
       <div className="nav-buttons">
-        <button onClick={onViewHistory} className="btn btn-secondary btn-small">
+        <button onClick={() => setShowHistory(true)} className="btn btn-secondary btn-small">
           상담 이력 보기
         </button>
       </div>

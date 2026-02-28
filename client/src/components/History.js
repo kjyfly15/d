@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function History({ token, onBack }) {
+function History({ onBack }) {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -19,11 +19,7 @@ function History({ token, onBack }) {
 
   const fetchHistory = async () => {
     try {
-      const response = await axios.get('/api/history', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get('/api/history');
       setHistory(response.data);
     } catch (err) {
       setError('이력을 불러오는데 실패했습니다.');

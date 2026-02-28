@@ -1,10 +1,10 @@
 const db = require('./database');
 
-// AI 상담 응답 생성 (실제로는 AI API를 사용할 수 있음)
-function generateConsultation(type, question, userInfo) {
+// AI 상담 응답 생성
+function generateConsultation(type, question) {
   const responses = {
     saju: [
-      `${userInfo.username}님의 사주를 봤을 때, ${question}에 대한 답은 긍정적입니다. 현재 운세가 상승하는 시기이니 자신감을 가지고 도전하세요.`,
+      `사주를 봤을 때, ${question}에 대한 답은 긍정적입니다. 현재 운세가 상승하는 시기이니 자신감을 가지고 도전하세요.`,
       `사주 팔자를 보니 ${question}과 관련하여 조심스러운 접근이 필요합니다. 서두르지 말고 천천히 준비하는 것이 좋겠습니다.`,
       `당신의 사주에는 재물운이 강하게 나타나고 있습니다. ${question}에 대해 재정적인 측면에서 좋은 기회가 올 수 있습니다.`,
     ],
@@ -32,22 +32,21 @@ function generateConsultation(type, question, userInfo) {
 }
 
 // 상담 저장
-function saveConsultation(userId, type, question, answer) {
-  const stmt = db.prepare('INSERT INTO consultations (user_id, type, question, answer) VALUES (?, ?, ?, ?)');
-  const result = stmt.run(userId, type, question, answer);
+function saveConsultation(type, question, answer) {
+  const stmt = db.prepare('INSERT INTO consultations (type, question, answer) VALUES (?, ?, ?)');
+  const result = stmt.run(type, question, answer);
   return result.lastInsertRowid;
 }
 
-// 사용자의 상담 이력 조회
-function getConsultationHistory(userId, limit = 10) {
+// 상담 이력 조회
+function getConsultationHistory(limit = 10) {
   const stmt = db.prepare(`
     SELECT id, type, question, answer, created_at
     FROM consultations
-    WHERE user_id = ?
     ORDER BY created_at DESC
     LIMIT ?
   `);
-  return stmt.all(userId, limit);
+  return stmt.all(limit);
 }
 
 module.exports = { generateConsultation, saveConsultation, getConsultationHistory };
